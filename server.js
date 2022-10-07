@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+require('dotenv');
 const methodOverride = require('method-override');
 const postRoutes = require('./routes/post-routes');
 const postApiRoutes = require('./routes/api-post-routes');
@@ -12,18 +13,14 @@ const app = express();
 // для использования шаблонизатора
 app.set('view engine', 'ejs');
 
-// константы
-const PORT = 3000;
-const DB_URL = 'mongodb://localhost:27017/node-blog';
-
 // подключение к БД
 mongoose
-	.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(res => console.log('Connected to DB'))
 	.catch(error => console.log(error));
 
-app.listen(PORT, error => {
-	error ? console.log(error) : console.log(`listening port ${PORT}`);
+app.listen(process.env.PORT, error => {
+	error ? console.log(error) : console.log(`listening port ${process.env.PORT}`);
 });
 
 // выводит информацию о запросе в консоль
